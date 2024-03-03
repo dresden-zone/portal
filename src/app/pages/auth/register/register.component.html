@@ -1,0 +1,19 @@
+<form [formGroup]="form" (submit)="submit($event)">
+  <label>
+    Name:
+    <input type="text" formControlName="name">
+  </label>
+  <label>
+    Email:
+    <input type="email" formControlName="email">
+  </label>
+  <label>
+    Display Name:
+    <input type="text" formControlName="display_name">
+  </label>
+  <label>
+    Password:
+    <input type="password" formControlName="password">
+  </label>
+  <input type="submit" [disabled]="valid | async" value="Register">
+</form>
