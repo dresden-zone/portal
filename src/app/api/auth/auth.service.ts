@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, catchError, map, Observable, of, switchMap, tap} from "rxjs";
-import {User} from "./auth.domain";
+import {Invite, User} from "./auth.domain";
 import {API_BASE} from "../api.domain";
 
 @Injectable({
@@ -37,8 +37,12 @@ export class AuthService {
     return this.me0;
   }
 
-  public register(name: string, email: string, display_name: string, password: string): Observable<User> {
-    return this.http.post<User>(`${API_BASE}/auth/register`, {name, email, display_name, password});
+  public checkInvite(id: string): Observable<Invite> {
+    return this.http.get<Invite>(`${API_BASE}/auth/invite/${id}`);
+  }
+
+  public register(inviteId: string, name: string, email: string | null, display_name: string, password: string): Observable<User> {
+    return this.http.post<User>(`${API_BASE}/auth/register/${inviteId}`, {name, email, display_name, password});
   }
 
   public password(name: string, password: string): Observable<User> {

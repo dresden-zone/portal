@@ -23,7 +23,7 @@ export class PasswordComponent {
     password: new FormControl('', [Validators.required])
   });
 
-  protected readonly valid = this.form.valueChanges.pipe(map(() => !this.form.valid));
+  protected readonly valid = this.form.valueChanges.pipe(map(() => this.form.valid));
 
   constructor(
     private readonly authService: AuthService,

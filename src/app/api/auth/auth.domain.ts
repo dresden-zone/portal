@@ -1,3 +1,11 @@
+export interface Invite {
+  id: string;
+  created: string;
+  expire: string;
+  email: string;
+  roles: number;
+}
+
 export interface User {
   id: string;
   created: string;

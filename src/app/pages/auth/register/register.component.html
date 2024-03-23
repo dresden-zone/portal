@@ -1,4 +1,8 @@
-<form [formGroup]="form" (submit)="submit($event)">
+<h1>Register</h1>
+
+<form *ngIf="(invite | async) as invite; else expired" [formGroup]="form" (submit)="submit($event, invite)">
+  <p>You've got invited to join dresden.zone. The invite is expiring {{ invite.expire | relativeTime | async }}.</p>
+
   <label>
     Name:
     <input type="text" formControlName="name">
@@ -15,5 +19,13 @@
     Password:
     <input type="password" formControlName="password">
   </label>
-  <input type="submit" [disabled]="valid | async" value="Register">
+  <label>
+    Repeat Password:
+    <input type="password" formControlName="repeat_password">
+  </label>
+  <input type="submit" [disabled]="!(valid | async)" value="Register">
 </form>
+
+<ng-template #expired>
+  This invite is invalid.
+</ng-template>
