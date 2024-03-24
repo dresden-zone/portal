@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let zone of (zones | async)">
+    <a [routerLink]="zone.id">{{ zone.name }}</a>
+  </li>
+</ul>
+
+<button (click)="new()">New Zone</button>

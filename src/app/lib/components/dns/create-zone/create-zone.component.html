@@ -1,0 +1,7 @@
+<form [formGroup]="form" (submit)="submit($event)">
+  <label>
+    Name:
+    <input type="text" formControlName="name">
+  </label>
+  <input type="submit" [disabled]="!(valid | async)" value="Create">
+</form>

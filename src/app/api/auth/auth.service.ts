@@ -18,7 +18,7 @@ export class AuthService {
 
   public isAuthenticated(): Observable<boolean> {
     if (this.me0 === null) {
-      return this.http.get<User>(`${API_BASE}/auth/me`)
+      return this.http.get<User>(`${API_BASE}/auth/v1/me`)
         .pipe(
           tap(user => this.me0 = new BehaviorSubject(user)),
           map(() => true),
@@ -38,15 +38,15 @@ export class AuthService {
   }
 
   public checkInvite(id: string): Observable<Invite> {
-    return this.http.get<Invite>(`${API_BASE}/auth/invite/${id}`);
+    return this.http.get<Invite>(`${API_BASE}/auth/v1/invite/${id}`);
   }
 
   public register(inviteId: string, name: string, email: string | null, display_name: string, password: string): Observable<User> {
-    return this.http.post<User>(`${API_BASE}/auth/register/${inviteId}`, {name, email, display_name, password});
+    return this.http.post<User>(`${API_BASE}/auth/v1/register/${inviteId}`, {name, email, display_name, password});
   }
 
   public password(name: string, password: string): Observable<User> {
-    return this.http.post<User>(`${API_BASE}/auth/password`, {name, password})
+    return this.http.post<User>(`${API_BASE}/auth/v1/password`, {name, password})
       .pipe(
         tap(user => {
           if (this.me0 === null) {

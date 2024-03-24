@@ -1,0 +1,8 @@
+<aside *ngIf="(sidebar | async) as sidebar">
+  <div class="header">
+    <h2>{{ sidebar.title }}</h2>
+    <button (click)="close()">X</button>
+  </div>
+
+  <ng-container *ngComponentOutlet="sidebar.component; inputs: sidebar.inputs; content: sidebar.content"></ng-container>
+</aside>

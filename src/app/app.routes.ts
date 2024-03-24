@@ -8,5 +8,9 @@ export const routes: Routes = [
     loadComponent: () => import("./pages/dashboard/dashboard.component").then(c => c.DashboardComponent),
     canActivate: [authGuard]
   },
-  {path: 'auth', loadChildren: () => import("./pages/auth/auth.routes").then(r => r.routes)}
+  {path: 'auth', loadChildren: () => import("./pages/auth/auth.routes").then(r => r.routes)},
+  {
+    path: 'dns', loadChildren: () => import("./pages/dns/dns.routes").then(r => r.routes),
+    canActivate: [authGuard]
+  }
 ];
