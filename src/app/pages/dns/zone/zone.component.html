@@ -1,0 +1,22 @@
+<ul>
+  <li *ngFor="let record of (aRecords | async); trackBy trackBy">
+    A: {{ record.name }} - {{ record.addr }}
+  </li>
+  <li *ngFor="let record of (aaaaRecords | async); trackBy trackBy">
+    AAAA: {{ record.name }} - {{ record.addr }}
+  </li>
+  <li *ngFor="let record of (cnameRecords | async); trackBy trackBy">
+    CNAME: {{ record.name }} - {{ record.target }}
+  </li>
+  <li *ngFor="let record of (mxRecords | async); trackBy trackBy">
+    MX: {{ record.name }} - {{ record.preference }} {{ record.exchange }}
+  </li>
+  <li *ngFor="let record of (nsRecords | async); trackBy trackBy">
+    NS: {{ record.name }} - {{ record.target }}
+  </li>
+  <li *ngFor="let record of (txtRecords | async); trackBy trackBy">
+    TXT: {{ record.name }} - {{ record.content }}
+  </li>
+</ul>
+
+<button *ngIf="(zoneId | async) as zoneId" (click)="new(zoneId)">New Record</button>

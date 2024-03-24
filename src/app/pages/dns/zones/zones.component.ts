@@ -4,6 +4,7 @@ import {AsyncPipe, NgForOf} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {SidebarService} from "../../../lib/sidebar/sidebar.service";
 import {CreateZoneComponent} from "../../../lib/components/dns/create-zone/create-zone.component";
+import {Zone} from "../../../api/dns/dns.domain";
 
 @Component({
   selector: 'app-zones',
@@ -29,5 +30,9 @@ export class ZonesComponent {
 
   protected new(): void {
     this.sidebarService.open("Create Zone", CreateZoneComponent);
+  }
+
+  protected trackBy(_idx: number, zone: Zone): string {
+    return zone.id;
   }
 }

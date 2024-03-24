@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {BehaviorSubject, Observable, switchMap, tap} from "rxjs";
-import {Zone} from "./dns.domain";
+import {Record, RecordType, Zone} from "./dns.domain";
 import {API_BASE} from "../api.domain";
 
 @Injectable({
@@ -32,5 +32,13 @@ export class DnsService {
           this.zones0.next([...this.zones0.value, zone]);
         }
       }))
+  }
+
+  public getRecords<T extends RecordType>(type: T, zoneId: string): Observable<Record<T>[]> {
+    return this.http.get<Record<T>[]>(`${API_BASE}/dns/v1/zone/${zoneId}/record/${type}`);
+  }
+
+  public createRecord<T extends RecordType>(type: T, zoneId: string, name: string, addr: string): Observable<Record<T>[]> {
+    return this.http.post<Record<T>[]>(`${API_BASE}/dns/v1/zone/${zoneId}/record/${type}`, {name, addr});
   }
 }

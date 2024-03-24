@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let zone of (zones | async)">
+  <li *ngFor="let zone of (zones | async); trackBy trackBy">
     <a [routerLink]="zone.id">{{ zone.name }}</a>
   </li>
 </ul>
