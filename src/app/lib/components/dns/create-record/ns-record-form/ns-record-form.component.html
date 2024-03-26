@@ -1,0 +1,15 @@
+<form [formGroup]="form" (submit)="submit($event, zoneId)">
+  <label>
+    Name:
+    <input type="text" formControlName="name">
+  </label>
+  <label>
+    Target:
+    <input type="text" formControlName="target">
+  </label>
+  <label>
+    Time to live:
+    <input type="number" formControlName="ttl">
+  </label>
+  <input type="submit" [disabled]="!(valid | async)" value="Create">
+</form>

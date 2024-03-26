@@ -1,11 +1,15 @@
-<form [formGroup]="form" (submit)="submit($event)">
-  <label>
-    Name:
-    <input type="text" formControlName="name">
-  </label>
-  <label>
-    Address:
-    <input type="text" formControlName="addr">
-  </label>
-  <input type="submit" [disabled]="!(valid | async)" value="Create">
-</form>
+<label>
+  Record Type:
+  <select [formControl]="recordType">
+    <option value="a">A</option>
+    <option value="aaaa">AAAA</option>
+    <option value="cname">CNAME</option>
+    <option value="mx">MX</option>
+    <option value="ns">NS</option>
+    <option value="txt">TXT</option>
+  </select>
+</label>
+
+<div *ngIf="(recordForm | async) as recordForm">
+  <ng-container *ngComponentOutlet="recordForm.component; inputs: recordForm.inputs"></ng-container>
+</div>
