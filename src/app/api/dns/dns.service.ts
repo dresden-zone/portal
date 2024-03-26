@@ -63,4 +63,21 @@ export class DnsService {
         }
       }));
   }
+
+  public modifyRecord<T extends RecordType>(type: T, recordId: string, data: RecordInsert<T>): Observable<Record<T>> {
+    return this.http.put<Record<T>>(`${API_BASE}/dns/v1/zone/record/${type}/${recordId}`, data)
+      .pipe(tap(record => {
+        const records = this.records0[type];
+
+        if (typeof records !== "undefined") {
+          records.value.forEach(currRecord => {
+            if (currRecord.id === recordId) {
+              Object.assign(currRecord, record);
+            }
+          });
+
+          records.next([...records.value]);
+        }
+      }));
+  }
 }
