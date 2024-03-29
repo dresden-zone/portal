@@ -3,6 +3,7 @@ import {map, tap} from "rxjs";
 import {RecordInsert, RecordType} from "../../../../api/dns/dns.domain";
 import {DnsService} from "../../../../api/dns/dns.service";
 import {SidebarService} from "../../../sidebar/sidebar.service";
+import {inject} from "@angular/core";
 
 type RecordForm<T> = FormGroup<{ [K in keyof RecordInsert<T>]: FormControl<RecordInsert<T>[K] | null> }>;
 
@@ -10,11 +11,12 @@ export abstract class AbstractRecordForm<T extends RecordType> {
 
   protected readonly valid = this.form.valueChanges.pipe(map(() => this.form.valid));
 
+  private readonly dnsService = inject(DnsService);
+  private readonly sidebarService = inject(SidebarService);
+
   protected constructor(
     private readonly type: T,
     protected readonly form: RecordForm<T>,
-    private readonly dnsService: DnsService,
-    private readonly sidebarService: SidebarService,
   ) {
   }
 

@@ -14,7 +14,7 @@ import {AsyncPipe} from "@angular/common";
     ReactiveFormsModule
   ],
   templateUrl: './ns-record-form.component.html',
-  styleUrl: './ns-record-form.component.scss',
+  styleUrl: '../record-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NsRecordFormComponent  extends AbstractRecordForm<RecordType.NS> {
@@ -22,7 +22,7 @@ export class NsRecordFormComponent  extends AbstractRecordForm<RecordType.NS> {
   @Input()
   public zoneId!: string;
 
-  constructor(dnsService: DnsService, sidebarService: SidebarService) {
+  constructor() {
     super(
       RecordType.NS,
       new FormGroup({
@@ -30,8 +30,6 @@ export class NsRecordFormComponent  extends AbstractRecordForm<RecordType.NS> {
         target: new FormControl<string|null>(null, [Validators.required]),
         ttl: new FormControl<number | null>(null),
       }),
-      dnsService,
-      sidebarService,
     );
   }
 }

@@ -14,7 +14,7 @@ import {SidebarService} from "../../../../sidebar/sidebar.service";
     ReactiveFormsModule
   ],
   templateUrl: './cname-record-form.component.html',
-  styleUrl: './cname-record-form.component.scss',
+  styleUrl: '../record-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CnameRecordFormComponent extends AbstractRecordForm<RecordType.CNAME> {
@@ -22,7 +22,7 @@ export class CnameRecordFormComponent extends AbstractRecordForm<RecordType.CNAM
   @Input()
   public zoneId!: string;
 
-  constructor(dnsService: DnsService, sidebarService: SidebarService) {
+  constructor() {
     super(
       RecordType.CNAME,
       new FormGroup({
@@ -30,8 +30,6 @@ export class CnameRecordFormComponent extends AbstractRecordForm<RecordType.CNAM
         target: new FormControl<string | null>(null, [Validators.required]),
         ttl: new FormControl<number | null>(null),
       }),
-      dnsService,
-      sidebarService,
     );
   }
 }

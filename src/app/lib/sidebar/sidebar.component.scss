@@ -1,5 +1,16 @@
-.header {
+aside {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  width: 25rem;
+  border-left: 0.15rem solid var(--accent2);
+  background-color: var(--accent3);
+  padding: 1rem;
+  gap: 1rem;
+  height: calc(100vh - 2rem);
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

@@ -1,1 +1,99 @@
-/* You can add global styles to this file, and also import other style files */
+@import '@fontsource/ibm-plex-mono/600.css';
+@import '@fontsource/ibm-plex-mono/700.css';
+
+:root {
+  --dark1: #320644;
+  --dark2: #240431;
+  --accent1: #8E05C2;
+  --accent2: #700B97;
+  --accent3: #3E065F;
+  --text: #fff;
+}
+
+body {
+  background-color: var(--dark2);
+  color: var(--text);
+  margin: 0;
+}
+
+* {
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6, h7, b, strong {
+  font-weight: 700
+}
+
+input[type=submit], button {
+  cursor: pointer;
+}
+
+input, select, button {
+  --bg: var(--accent2);
+
+  background-color: var(--bg);
+  border: none;
+  outline: none;
+  color: var(--text);
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 0.3rem;
+  transition: 100ms ease-in-out background-color;
+
+  &:focus, &:hover {
+    --bg: var(--accent1);
+  }
+
+  &:disabled {
+    cursor: unset;
+    --bg: var(--dark1);
+  }
+}
+
+input[type=submit], button {
+  &.icon {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1/1;
+    padding: 0.5rem;
+
+    svg {
+      fill: var(--text);
+      height: auto;
+      width: 0.6rem;
+    }
+  }
+}
+
+:not(.typography) {
+  h1, h2, h3, h4, h5, h6, h7, p, ul {
+    margin: 0;
+  }
+}
+
+table {
+  background-color: var(--accent3);
+  border-collapse: collapse;
+
+  td, th {
+    padding: 0.4rem 0.8rem;
+  }
+
+  td {
+    border-top: 0.15rem solid var(--accent2);
+    text-align: center;
+  }
+}
+
+
+a {
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 0.15rem solid var(--accent1);
+  transition: 100ms ease-in-out background-color;
+
+  &:hover {
+    background-color: var(--accent1);
+  }
+}

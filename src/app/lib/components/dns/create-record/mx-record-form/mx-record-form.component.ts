@@ -14,7 +14,7 @@ import {AsyncPipe} from "@angular/common";
     ReactiveFormsModule
   ],
   templateUrl: './mx-record-form.component.html',
-  styleUrl: './mx-record-form.component.scss',
+  styleUrl: '../record-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MxRecordFormComponent extends AbstractRecordForm<RecordType.MX> {
@@ -22,7 +22,7 @@ export class MxRecordFormComponent extends AbstractRecordForm<RecordType.MX> {
   @Input()
   public zoneId!: string;
 
-  constructor(dnsService: DnsService, sidebarService: SidebarService) {
+  constructor() {
     super(
       RecordType.MX,
       new FormGroup({
@@ -31,8 +31,6 @@ export class MxRecordFormComponent extends AbstractRecordForm<RecordType.MX> {
         exchange: new FormControl<string | null>(null, [Validators.required]),
         ttl: new FormControl<number | null>(null),
       }),
-      dnsService,
-      sidebarService,
     );
   }
 }

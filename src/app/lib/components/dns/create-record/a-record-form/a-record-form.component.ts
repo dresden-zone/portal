@@ -3,8 +3,6 @@ import {AsyncPipe} from "@angular/common";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RecordType} from "../../../../../api/dns/dns.domain";
 import {AbstractRecordForm} from "../abstract-record-form";
-import {DnsService} from "../../../../../api/dns/dns.service";
-import {SidebarService} from "../../../../sidebar/sidebar.service";
 
 @Component({
   selector: 'app-a-record-form',
@@ -14,7 +12,7 @@ import {SidebarService} from "../../../../sidebar/sidebar.service";
     ReactiveFormsModule
   ],
   templateUrl: './a-record-form.component.html',
-  styleUrl: './a-record-form.component.scss',
+  styleUrl: '../record-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ARecordFormComponent extends AbstractRecordForm<RecordType.A> {
@@ -22,7 +20,7 @@ export class ARecordFormComponent extends AbstractRecordForm<RecordType.A> {
   @Input()
   public zoneId!: string;
 
-  constructor(dnsService: DnsService, sidebarService: SidebarService) {
+  constructor() {
     super(
       RecordType.A,
       new FormGroup({
@@ -30,8 +28,6 @@ export class ARecordFormComponent extends AbstractRecordForm<RecordType.A> {
         addr: new FormControl<string | null>(null, [Validators.required]),
         ttl: new FormControl<number | null>(null),
       }),
-      dnsService,
-      sidebarService,
     );
   }
 }

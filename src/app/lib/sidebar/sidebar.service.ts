@@ -1,5 +1,5 @@
 import {Injectable, Type} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, distinct, Observable} from "rxjs";
 
 export interface Sidebar<C> {
   title: string;

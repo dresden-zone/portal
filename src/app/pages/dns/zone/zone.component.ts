@@ -22,23 +22,24 @@ import {CreateRecordComponent} from "../../../lib/components/dns/create-record/c
 export class ZoneComponent {
 
   protected readonly zoneId = this.route.params.pipe(map(({zoneId}) => zoneId));
+  protected readonly zone = this.zoneId.pipe(switchMap(zoneId => this.dnsService.getZone(zoneId)));
 
-  protected aRecords = this.zoneId.pipe(
+  protected readonly aRecords = this.zoneId.pipe(
     switchMap(zoneId => this.dnsService.getRecords(RecordType.A, zoneId))
   );
-  protected aaaaRecords = this.zoneId.pipe(
+  protected readonly aaaaRecords = this.zoneId.pipe(
     switchMap(zoneId => this.dnsService.getRecords(RecordType.AAAA, zoneId))
   );
-  protected cnameRecords = this.zoneId.pipe(
+  protected readonly cnameRecords = this.zoneId.pipe(
     switchMap(zoneId => this.dnsService.getRecords(RecordType.CNAME, zoneId))
   );
-  protected mxRecords = this.zoneId.pipe(
+  protected readonly mxRecords = this.zoneId.pipe(
     switchMap(zoneId => this.dnsService.getRecords(RecordType.MX, zoneId))
   );
-  protected nsRecords = this.zoneId.pipe(
+  protected readonly nsRecords = this.zoneId.pipe(
     switchMap(zoneId => this.dnsService.getRecords(RecordType.NS, zoneId))
   );
-  protected txtRecords = this.zoneId.pipe(
+  protected readonly txtRecords = this.zoneId.pipe(
     switchMap(zoneId => this.dnsService.getRecords(RecordType.TXT, zoneId))
   );
 

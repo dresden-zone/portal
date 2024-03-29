@@ -1,7 +1,11 @@
 <aside *ngIf="(sidebar | async) as sidebar">
   <div class="header">
     <h2>{{ sidebar.title }}</h2>
-    <button (click)="close()">X</button>
+    <button (click)="close()" class="icon">
+      <svg height="14" viewBox="0 -960 560 560" width="14">
+        <path d="M56-400L0-456l224-224L0-904l56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224z"/>
+      </svg>
+    </button>
   </div>
 
   <ng-container *ngComponentOutlet="sidebar.component; inputs: sidebar.inputs; content: sidebar.content"></ng-container>

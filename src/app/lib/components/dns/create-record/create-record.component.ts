@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, Type} from '@angular/core';
 import {AsyncPipe, NgComponentOutlet, NgIf} from "@angular/common";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {RecordType} from "../../../../api/dns/dns.domain";
@@ -11,6 +11,15 @@ import {NsRecordFormComponent} from "./ns-record-form/ns-record-form.component";
 import {TxtRecordFormComponent} from "./txt-record-form/txt-record-form.component";
 
 const DEFAULT_SELECTED = RecordType.A;
+
+const RECORD_FORM_MAPPING: Record<RecordType, Type<unknown>> = {
+  [RecordType.A]: ARecordFormComponent,
+  [RecordType.AAAA]: AaaaRecordFormComponent,
+  [RecordType.CNAME]: CnameRecordFormComponent,
+  [RecordType.MX]: MxRecordFormComponent,
+  [RecordType.NS]: NsRecordFormComponent,
+  [RecordType.TXT]: TxtRecordFormComponent,
+};
 
 @Component({
   selector: 'app-create-record',
@@ -27,27 +36,11 @@ const DEFAULT_SELECTED = RecordType.A;
 })
 export class CreateRecordComponent {
 
-  protected recordType = new FormControl(DEFAULT_SELECTED);
+  protected recordType = new FormControl(DEFAULT_SELECTED, {nonNullable: true});
 
   protected recordForm = this.recordType.valueChanges.pipe(
     startWith(DEFAULT_SELECTED),
-    map(recordType => {
-      switch (recordType!) {
-        case RecordType.A:
-          return ARecordFormComponent;
-        case RecordType.AAAA:
-          return AaaaRecordFormComponent;
-        case RecordType.CNAME:
-          return CnameRecordFormComponent;
-        case RecordType.MX:
-          return MxRecordFormComponent;
-        case RecordType.NS:
-          return NsRecordFormComponent;
-        case RecordType.TXT:
-          return TxtRecordFormComponent;
-      }
-    }),
-    map(component => ({component, inputs: {zoneId: this.zoneId}}))
+    map(type => ({component: RECORD_FORM_MAPPING[type], inputs: {zoneId: this.zoneId}}))
   );
 
   @Input()

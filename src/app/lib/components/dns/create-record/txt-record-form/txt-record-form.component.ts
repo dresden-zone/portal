@@ -14,7 +14,7 @@ import {AsyncPipe} from "@angular/common";
     ReactiveFormsModule
   ],
   templateUrl: './txt-record-form.component.html',
-  styleUrl: './txt-record-form.component.scss',
+  styleUrl: '../record-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TxtRecordFormComponent extends AbstractRecordForm<RecordType.TXT> {
@@ -22,7 +22,7 @@ export class TxtRecordFormComponent extends AbstractRecordForm<RecordType.TXT> {
   @Input()
   public zoneId!: string;
 
-  constructor(dnsService: DnsService, sidebarService: SidebarService) {
+  constructor() {
     super(
       RecordType.TXT,
       new FormGroup({
@@ -30,8 +30,6 @@ export class TxtRecordFormComponent extends AbstractRecordForm<RecordType.TXT> {
         content: new FormControl<string | null>(null, [Validators.required]),
         ttl: new FormControl<number | null>(null),
       }),
-      dnsService,
-      sidebarService,
     );
   }
 }

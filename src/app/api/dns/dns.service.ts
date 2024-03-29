@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, Observable, switchMap, tap} from "rxjs";
+import {BehaviorSubject, map, Observable, Subject, switchMap, tap} from "rxjs";
 import {Record, RecordInsert, RecordType, Zone} from "./dns.domain";
 import {API_BASE} from "../api.domain";
 
@@ -10,8 +10,10 @@ import {API_BASE} from "../api.domain";
 export class DnsService {
 
   private zones0: BehaviorSubject<Zone[]> | null = null;
+  private updatingZones: Subject<void> | null = null;
 
   private records0: { [K in RecordType]?: BehaviorSubject<Record<K>[]> } = {};
+  private zoneId0: string | null = null;
 
   constructor(
     private readonly http: HttpClient,
@@ -20,11 +22,25 @@ export class DnsService {
 
   public getZones(): Observable<Zone[]> {
     if (this.zones0 === null) {
-      return this.http.get<Zone[]>(`${API_BASE}/dns/v1/zone`)
-        .pipe(switchMap(zones => this.zones0 = new BehaviorSubject(zones)));
+      if (this.updatingZones === null) {
+        this.updatingZones = new Subject<void>();
+        return this.http.get<Zone[]>(`${API_BASE}/dns/v1/zone`)
+          .pipe(switchMap(zones => {
+            this.zones0 = new BehaviorSubject(zones);
+            this.updatingZones!.next();
+            this.updatingZones!.complete();
+            return this.zones0;
+          }));
+      } else {
+        return this.updatingZones.pipe(switchMap(() => this.zones0!));
+      }
     } else {
       return this.zones0.asObservable();
     }
+  }
+
+  public getZone(id: string): Observable<Zone | null> {
+    return this.getZones().pipe(map(zones => zones.find(zone => zone.id === id) ?? null));
   }
 
   public createZone(name: string): Observable<Zone> {
@@ -37,11 +53,15 @@ export class DnsService {
   }
 
   public getRecords<T extends RecordType>(type: T, zoneId: string): Observable<Record<T>[]> {
-    {
+    if (this.zoneId0 === zoneId) {
       const cached = this.records0[type];
       if (typeof cached !== "undefined") {
         return cached.asObservable();
       }
+    } else {
+      Object.values(this.records0).forEach(records => records.complete());
+      this.records0 = {};
+      this.zoneId0 = zoneId;
     }
 
     // @ts-expect-error

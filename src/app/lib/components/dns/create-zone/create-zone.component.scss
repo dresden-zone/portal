@@ -1,10 +1,11 @@
 form {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  gap: 0.4rem;
 
   label {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-items: center;
   }
 }

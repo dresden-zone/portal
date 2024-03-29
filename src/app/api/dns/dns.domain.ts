@@ -29,41 +29,39 @@ type SpecificRecord<T> = (T extends RecordType.A
           ? RecordNs : T extends RecordType.TXT
             ? RecordTxt : unknown);
 
-export interface RecordBase {
+interface RecordBase extends RecordInsertBase {
   id: string;
   created: string;
   updated: string;
-  name: string;
   zone_id: string;
-  ttl: number | null;
 }
 
-export interface RecordInsertBase {
+interface RecordInsertBase {
   name: string;
   ttl: number | null;
 }
 
-export interface RecordA {
+interface RecordA {
   addr: string;
 }
 
-export interface RecordAaaa {
+interface RecordAaaa {
   addr: string;
 }
 
-export interface RecordCname {
+interface RecordCname {
   target: string;
 }
 
-export interface RecordMx {
+interface RecordMx {
   preference: number;
   exchange: string;
 }
 
-export interface RecordNs {
+interface RecordNs {
   target: string;
 }
 
-export interface RecordTxt {
+interface RecordTxt {
   content: string;
 }
