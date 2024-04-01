@@ -74,6 +74,11 @@ export class DnsService {
       }))
   }
 
+  public getRecord<T extends RecordType>(type: T, zoneId: string, recordId: string): Observable<Record<T> | null> {
+    return this.getRecords(type, zoneId)
+      .pipe(map(records => records.find(record => record.id === recordId) ?? null));
+  }
+
   public createRecord<T extends RecordType>(type: T, zoneId: string, data: RecordInsert<T>): Observable<Record<T>> {
     return this.http.post<Record<T>>(`${API_BASE}/dns/v1/zone/${zoneId}/record/${type}`, data)
       .pipe(tap(record => {
@@ -85,7 +90,7 @@ export class DnsService {
   }
 
   public modifyRecord<T extends RecordType>(type: T, recordId: string, data: RecordInsert<T>): Observable<Record<T>> {
-    return this.http.put<Record<T>>(`${API_BASE}/dns/v1/zone/record/${type}/${recordId}`, data)
+    return this.http.put<Record<T>>(`${API_BASE}/dns/v1/record/${type}/${recordId}`, data)
       .pipe(tap(record => {
         const records = this.records0[type];
 

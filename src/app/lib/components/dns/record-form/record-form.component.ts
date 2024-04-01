@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, Input, Type} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, Type} from '@angular/core';
 import {AsyncPipe, NgComponentOutlet, NgIf} from "@angular/common";
 import {FormControl, ReactiveFormsModule} from "@angular/forms";
 import {RecordType} from "../../../../api/dns/dns.domain";
-import {map, startWith} from "rxjs";
+import {combineLatest, map, share, Subject} from "rxjs";
 import {ARecordFormComponent} from "./a-record-form/a-record-form.component";
 import {AaaaRecordFormComponent} from "./aaaa-record-form/aaaa-record-form.component";
 import {CnameRecordFormComponent} from "./cname-record-form/cname-record-form.component";
@@ -22,7 +22,7 @@ const RECORD_FORM_MAPPING: Record<RecordType, Type<unknown>> = {
 };
 
 @Component({
-  selector: 'app-create-record',
+  selector: 'app-record-form',
   standalone: true,
   imports: [
     AsyncPipe,
@@ -30,19 +30,38 @@ const RECORD_FORM_MAPPING: Record<RecordType, Type<unknown>> = {
     NgComponentOutlet,
     NgIf
   ],
-  templateUrl: './create-record.component.html',
-  styleUrl: './create-record.component.scss',
+  templateUrl: './record-form.component.html',
+  styleUrl: './record-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateRecordComponent {
+export class RecordFormComponent implements OnChanges, OnInit {
 
-  protected recordType = new FormControl(DEFAULT_SELECTED, {nonNullable: true});
+  protected recordTypeForm = new FormControl(DEFAULT_SELECTED, {nonNullable: true});
 
-  protected recordForm = this.recordType.valueChanges.pipe(
-    startWith(DEFAULT_SELECTED),
-    map(type => ({component: RECORD_FORM_MAPPING[type], inputs: {zoneId: this.zoneId}}))
+  private data = new Subject<{ zoneId: string, recordId?: string }>();
+
+  protected recordForm = combineLatest(
+    [this.recordTypeForm.valueChanges, this.data]
+  ).pipe(
+    map(([type, {zoneId, recordId}]) => ({component: RECORD_FORM_MAPPING[type], inputs: {zoneId, recordId}})),
+    share()
   );
 
   @Input()
-  public zoneId: string | null = null;
+  public zoneId!: string;
+
+  @Input()
+  public recordType?: RecordType;
+
+  @Input()
+  public recordId?: string;
+
+  public ngOnInit(): void {
+    this.ngOnChanges();
+  }
+
+  public ngOnChanges(_?: SimpleChanges): void {
+    this.data.next({zoneId: this.zoneId, recordId: this.recordId});
+    this.recordTypeForm.setValue(this.recordType ?? DEFAULT_SELECTED);
+  }
 }

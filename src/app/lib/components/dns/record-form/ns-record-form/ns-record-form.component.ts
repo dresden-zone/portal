@@ -1,33 +1,34 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {AbstractRecordForm} from "../abstract-record-form";
 import {RecordType} from "../../../../../api/dns/dns.domain";
-import {DnsService} from "../../../../../api/dns/dns.service";
-import {SidebarService} from "../../../../sidebar/sidebar.service";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AsyncPipe} from "@angular/common";
 
 @Component({
-  selector: 'app-aaaa-record-form',
+  selector: 'app-ns-record-form',
   standalone: true,
   imports: [
     AsyncPipe,
     ReactiveFormsModule
   ],
-  templateUrl: './aaaa-record-form.component.html',
-  styleUrl: '../record-form.component.scss',
+  templateUrl: './ns-record-form.component.html',
+  styleUrl: '../base.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AaaaRecordFormComponent extends AbstractRecordForm<RecordType.AAAA> {
+export class NsRecordFormComponent extends AbstractRecordForm<RecordType.NS> {
 
   @Input()
   public zoneId!: string;
 
-  constructor(dnsService: DnsService) {
+  @Input()
+  public recordId?: string;
+
+  constructor() {
     super(
-      RecordType.AAAA,
+      RecordType.NS,
       new FormGroup({
         name: new FormControl<string | null>(null, [Validators.required]),
-        addr: new FormControl<string | null>(null, [Validators.required]),
+        target: new FormControl<string | null>(null, [Validators.required]),
         ttl: new FormControl<number | null>(null),
       }),
     );

@@ -7,28 +7,30 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {AsyncPipe} from "@angular/common";
 
 @Component({
-  selector: 'app-mx-record-form',
+  selector: 'app-txt-record-form',
   standalone: true,
   imports: [
     AsyncPipe,
     ReactiveFormsModule
   ],
-  templateUrl: './mx-record-form.component.html',
-  styleUrl: '../record-form.component.scss',
+  templateUrl: './txt-record-form.component.html',
+  styleUrl: '../base.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MxRecordFormComponent extends AbstractRecordForm<RecordType.MX> {
+export class TxtRecordFormComponent extends AbstractRecordForm<RecordType.TXT> {
 
   @Input()
   public zoneId!: string;
 
+  @Input()
+  public recordId?: string;
+
   constructor() {
     super(
-      RecordType.MX,
+      RecordType.TXT,
       new FormGroup({
         name: new FormControl<string | null>(null, [Validators.required]),
-        preference: new FormControl<number | null>(null, [Validators.required]),
-        exchange: new FormControl<string | null>(null, [Validators.required]),
+        content: new FormControl<string | null>(null, [Validators.required]),
         ttl: new FormControl<number | null>(null),
       }),
     );

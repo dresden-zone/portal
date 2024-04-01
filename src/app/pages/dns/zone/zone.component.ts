@@ -5,7 +5,7 @@ import {Record, RecordType} from "../../../api/dns/dns.domain";
 import {ActivatedRoute} from "@angular/router";
 import {map, switchMap} from "rxjs";
 import {SidebarService} from "../../../lib/sidebar/sidebar.service";
-import {CreateRecordComponent} from "../../../lib/components/dns/create-record/create-record.component";
+import {RecordFormComponent} from "../../../lib/components/dns/record-form/record-form.component";
 
 @Component({
   selector: 'app-zone',
@@ -51,10 +51,16 @@ export class ZoneComponent {
   }
 
   protected new(zoneId: string): void {
-    this.sidebarService.open("Create Record", CreateRecordComponent, {zoneId});
+    this.sidebarService.open("Create Record", RecordFormComponent, {zoneId});
+  }
+
+  protected edit(zoneId: string, recordType: RecordType, recordId: string): void {
+    this.sidebarService.open("Modify Record", RecordFormComponent, {zoneId, recordType, recordId});
   }
 
   protected trackBy<T>(_idx: number, record: Record<T>): string {
     return record.id;
   }
+
+  protected readonly RecordType = RecordType;
 }
